@@ -1,21 +1,69 @@
-MIT License
+SHARED TRADINGVIEW PINESCRIPT SOURCE CODE LICENSE
 
-Copyright (c) 2018 CryptoCoyns
+Copyright (c) 2018 CryptoCoyns.com and its owner Newhaven Resources Pty. Ltd.
+All software is provided under a commercial license, all rights reserved worldwide.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+This License governs use of the accompanying Software, and your use of
+the Software constitutes acceptance of this license.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+You may use this Software for any non-commercial purpose, subject to
+the restrictions in this license. Some purposes which can be
+non-commercial are teaching, academic research, and personal
+experimentation. 
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+You may not use or distribute this Software or any derivative works in
+any form for commercial purposes. Examples of commercial purposes
+would be running business operations, licensing, leasing, or selling
+the Software, Commercial Trading, Trading on behalf of others or Providing 
+Trading Signals to others or distributing the Software for use with 
+commercial products.
+
+You cannot modify this Software and distribute the modified Software for
+commercial purposes. You cannot grant rights to the Software or any 
+derivative works that are broader than those provided by
+this License. For example, you may not distribute modifications of the
+Software under terms that would permit commercial use, or under terms
+that purport to require the Software or derivative works to be
+sub-licensed to others.
+
+In return, we simply require that you agree:
+
+1. Not to remove any copyright or other notices from the Software.
+
+2. That you cannot distribute the Software in source or object form.
+
+3. That you cannot create and distribute derivative works of the Software 
+in source code or object form except for your personal use only.
+
+4. That if you have modified the Software or created derivative works
+for personal use only, you will cause the modified files to carry prominent 
+notices so that anyone who may view that derivative work knows that they are 
+not observing the original Software. Such notices must state: 
+(i) that you have changed the Software;
+(ii) the date of any changes; and
+(iii) Include a link to a copy of this license file which must accompany 
+any derivative works.
+
+5. THAT THE SOFTWARE COMES "AS IS", WITH NO WARRANTIES. THIS MEANS NO
+EXPRESS, IMPLIED OR STATUTORY WARRANTY, INCLUDING WITHOUT LIMITATION,
+WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE OR
+ANY WARRANTY OF TITLE OR NON-INFRINGEMENT. ALSO, YOU MUST PASS THIS
+DISCLAIMER ON WHENEVER YOU DISTRIBUTE THE SOFTWARE OR DERIVATIVE
+WORKS.
+
+6. THAT CRYPTOCOYNS.COM AND ITS OWNER NEWHAVEN RESOURCES PTY. LTD. WILL NOT 
+BE LIABLE FOR ANY DAMAGES RELATED TO THE SOFTWARE OR THIS LICENSE, 
+INCLUDING DIRECT, INDIRECT, SPECIAL, CONSEQUENTIAL OR INCIDENTAL 
+DAMAGES, TO THE MAXIMUM EXTENT THE LAW PERMITS, NO MATTER WHAT 
+LEGAL THEORY IT IS BASED ON. ALSO, YOU MUST PASS THIS LIMITATION OF 
+LIABILITY ON WHENEVER YOU DISTRIBUTE THE SOFTWARE OR DERIVATIVE WORKS.
+
+7. That if you sue anyone over patents that you think may apply to the
+Software or anyone's use of the Software, your license to the Software
+ends automatically.
+
+8. That your rights under the License end automatically if you breach
+it in any way.
+
+9. CryptoCoyns.com and its owner Newhaven Resources Pty. Ltd. reserves 
+all rights not expressly granted to you in this license.
