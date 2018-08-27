@@ -1,0 +1,147 @@
+//@version=3
+//
+// Built an indicator providing buy / sell signals for CryptoGuru from the 
+// ProfitTrailer discord https://discord.gg/K9a37Vh as a Birthday Present.
+//
+// He requested:
+//  I'm looking to put together a buy signal for a 5 min time 
+//  frame that shows alerts me when a coin in BTC pairs. Is at 
+//  the lower of B.B. band or below the lower B.B. band combined 
+//  with RSI 30, and a 8/13 cross with the cross showing the coin 
+//  moving in up trend.
+//
+// Rather than build directly to the requested strategy I made this a
+// generic and more flexible indicator that can be used and configured
+// to work on any market, timeframe and trading pair. I first published 
+// the basis of this indicator on the ProfitTrailer discord as an 
+// educational exercise to teach CryptoGuru and the other ProfitTrailer
+// discord members the use of TradingView's PineScript to create their 
+// own indicators.
+//
+// The script uses an EMA cross as its main signal and then optionally
+// makes use of RSI and Bollinger Bands to support the cross.
+//
+// The display of the EMA lines is optional as is the display of the
+// RSI and Bollinger Bands. The signals will always display based on
+// whatever input criteria you provide.
+//
+// This software is provided under a commercial license that grants
+// personal use only, please refer:
+// https://github.com/cryptocoyns/tradingviewscripts/license
+//
+// Copyright (c) 2018, Grant Cause aka CryptoCoyns
+//
+indicator_title = "CryptoGuru Signals"
+indicator_short_title = "CryptoGuru Signals"
+indicator_release = "2018-08-25"
+indicator_overlay = true
+indicator_scale = scale.right
+indicator_precision = 8
+indicator_max_bars_back = 500
+
+study(title=indicator_title+" [v"+indicator_release+"]", shorttitle=indicator_short_title, overlay=indicator_overlay, precision=indicator_precision, scale=indicator_scale, max_bars_back=indicator_max_bars_back)
+
+timeframeHeader = input(defval = false, title = "---- Timeframe ----")
+
+// timeframe based closing price
+useTimeframe = input(true, title = "Use chart price / timeframe?")
+
+emaLinesHeader = input(defval = false, title = "---- EMA lines ----")
+
+// input the values for the EMA lines
+showEMALines = input(true, "Sbow EMA lines?")
+emaFastLength = input(defval = 8, title = "Fast Length", minval = 1)
+emaSlowLength = input(defval = 13, title = "Slow Length", minval = 1)
+
+rsiHeader = input(defval = false, title = "---- RSI ----")
+
+// input the values for RSI
+useRSI = input(true, title = "Use RSI?")
+rsiLength = input(defval = 2, title="RSI Length", minval = 1)
+rsiOverBought = input(defval = 80, title = "RSI Over Bought Limit", minval = 1)
+rsiOverSold = input(defval = 30, title = "RSI Over Sold Limit", minval = 1)
+
+bbandsHeader = input(defval = false, title = "---- Bollinger Bands ----")
+
+// input the values for Bollinger Bands
+useBBands = input(true, title = "Use Bollinger Bands?")
+bbLength = input(defval = 20, title = "Bollinger Bands Period Length", minval = 1)
+bbMult = input(defval = 2.0, title = "Bollinger Bands Standard Deviation", minval = 0.001, maxval = 50.0)
+bbLow = input(defval = 40, title = "Bollinger Bands Lower Limit", minval = 0, maxval = 100)
+bbHigh = input(defval = 60, title = "Bollinger Bands Upper Limit", minval = 0, maxval = 100)
+
+// Determine closing price to use
+closingPrice = useTimeframe ? security(ticker, period, close) : close
+
+// Define our EMA cross indicator
+emaFastLine = ema(closingPrice, emaFastLength)
+emaSlowLine = ema(closingPrice, emaSlowLength)
+
+// Create our EMA cross indicator buy and sell signal
+emaBuySignal = crossover(emaFastLine, emaSlowLine)
+emaSellSignal = crossunder(emaFastLine, emaSlowLine)
+
+// Define our RSI indicator
+rsiValue = rsi(closingPrice, rsiLength)
+
+// Create our RSI indicator buy and sell signal
+rsiBuySignal = useRSI ? crossover(rsiValue, rsiOverSold) : 1
+rsiSellSignal = useRSI ? crossunder(rsiValue, rsiOverBought) : 1
+
+// Define our Bollinger Bands indicator
+bbBasis = sma(closingPrice, bbLength)
+bbStdDev = stdev(closingPrice, bbLength)
+bbDev = bbMult * bbStdDev
+bbUpperValue = bbBasis + bbDev
+bbLowerValue = bbBasis - bbDev
+bbWidthValue = ((bbUpperValue - bbLowerValue) / bbBasis) * 100
+bbLowRange = bbLowerValue + ((bbBasis - bbLowerValue) * (bbLow / 100))
+bbHighRange = bbUpperValue - ((bbUpperValue - bbBasis) * ((100 - bbHigh) / 100))
+
+// Look for values in our uppper and lower bollinger band ranges
+bbInLowRange = useBBands ? crossover(closingPrice, bbLowRange) : 1
+bbInHighRange = useBBands ? crossunder(closingPrice, bbHighRange) : 1
+
+// Look for breakouts above or below the bollinger bands
+bbLowerBreakOut = useBBands ? ((low <= bbLowerValue) ? 1 : 0) : 1
+bbUpperBreakOut = useBBands ? ((high >= bbUpperValue) ? 1 : 0) : 1
+
+// Create our Bollinger Bands indicator buy and sell signal
+bbBuySignal = (bbInLowRange or bbLowerBreakOut)
+bbSellSignal = (bbInHighRange or bbUpperBreakOut)
+
+// Create our main Buy and Sell signals using all our indicators
+buySignal = (emaBuySignal and rsiBuySignal and bbBuySignal)
+sellSignal = (emaSellSignal and rsiSellSignal and bbSellSignal)
+
+// Define colours to be used for indicators
+emaFastColour = color(blue,0)
+emaSlowColour = #FF00FF
+bbBasisColour = aqua
+bbUpperLineColour = blue
+bbLowerLineColour = blue
+bbChannelFillColour = silver
+bbLowRangeColour = lime
+bbHighRangeColour = red
+buySignalColour = lime
+sellSignalColour = aqua
+
+// Plot the EMA lines on the chart
+plot(showEMALines ? emaFastLine : na, title="EMA fast", color = emaFastColour, linewidth = 4)
+plot(showEMALines ? emaSlowLine : na, title="EMA slow", color = emaSlowColour, linewidth = 4)
+
+// Plot the Bollinger Bands on the Chart
+bbUpperLine = plot(useBBands ? bbUpperValue : na, title = "Bollinger Bands Upper Line", color = blue, transp = 50, linewidth = 1)
+bbLowerLine = plot(useBBands ? bbLowerValue : na, title = "Bollinger Bands Lower Line", color = bbLowerLineColour, transp = 50, linewidth = 1)
+fill(bbUpperLine, bbLowerLine, title = "Bollinger Bands Channel Fill", color = bbChannelFillColour, transp = 90)
+plot(useBBands ? bbBasis : na, title = "Bollinger Bands SMA Basis line", color = bbBasisColour, transp = 50, linewidth = 2)
+plot(useBBands ? bbLowRange : na, title = "Bollinger Bands Low Range line", color = bbLowRangeColour)
+plot(useBBands ? bbHighRange : na, title = "Bollinger Bands High Range line", color = bbHighRangeColour)
+
+// Plot our Buy and Sell Signals on the Chart
+plotchar(buySignal, title = "LONG", char = '↑', location = location.belowbar, color = buySignalColour, text = "LONG", size = size.small)
+plotchar(sellSignal, title = "SHORT", char = '↓', location = location.abovebar, color = sellSignalColour, text = "SHORT", size = size.small)
+
+// Create Alerts for our Buy / Sell signals
+alertcondition(buySignal, title = 'LONG', message = 'LONG')
+alertcondition(sellSignal, title = 'SHORT', message = 'SHORT')
